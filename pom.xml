@@ -1,0 +1,29 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>at.downardo</groupId>
+  <artifactId>j3270Server</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>Java 3270 Server</name>
+  <description>This libary allows the user to write servers for IBM 3270 Terminal emulators.</description>
+  
+  <build>
+    <plugins>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.0.0</version>
+            <configuration>
+                <mainClass>at.downardo.j3270Server.Main</mainClass>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <java.version>17</java.version>
+    </properties>
+  
+</project>
