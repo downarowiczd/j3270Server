@@ -13,7 +13,7 @@
             <artifactId>exec-maven-plugin</artifactId>
             <version>3.0.0</version>
             <configuration>
-                <mainClass>at.downardo.j3270Server.Main</mainClass>
+                <mainClass>at.downardo.j3270Server.example.Example</mainClass>
             </configuration>
         </plugin>
     </plugins>
