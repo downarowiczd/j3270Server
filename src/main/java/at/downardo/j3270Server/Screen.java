@@ -8,11 +8,14 @@ LICENSE in the project root for license information
 package at.downardo.j3270Server;
 
 import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 
+/**
+ * Screen is an array of fields which compose a complete 3270 screen.
+ * No checing is performed for lack of overlapping fields, uniqure field names,
+ * @author downarowiczd
+ *
+ */
 public class Screen {
 	
 	private Field[] fields;
@@ -25,7 +28,17 @@ public class Screen {
 		return fields;
 	}
 	
-	
+	/**
+	 * WriteScreen writes the 3270 datastream for the screen to a writer.
+	 * Fields that aren't valid (e.g. outside of the 24x80 screen) are silently ignored.
+	 * After writing the fields, the cursor is set to crow ccol, which are 0-based positions:
+	 * row 0-23 and col 0-79.
+	 * @param screen
+	 * @param crow
+	 * @param ccol
+	 * @param buffer
+	 * @throws IOException
+	 */
 	public static void WriteScreen(Screen screen, int crow, int ccol, BufferedOutputStream buffer) throws IOException {
 		//ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 		
@@ -77,7 +90,12 @@ public class Screen {
 		
 	}
 	
-	
+	/**
+	 * sba is the "set buffer address" 3270 command
+	 * @param row
+	 * @param col
+	 * @return
+	 */
 	public static int[] sba(int row, int col) {
 		int[] _return = new int[3];
 		
@@ -87,7 +105,12 @@ public class Screen {
 		return _return;
 	}
 	
-	
+	/**
+	 * sf is the "start field" 3280 command
+	 * @param write
+	 * @param intense
+	 * @return
+	 */
 	public static int[] sf(boolean write, boolean intense) {
 		int[] _return = new int[2];
 		
@@ -107,7 +130,12 @@ public class Screen {
 
 	}
 	
-	
+	/**
+	 * ic is the "insert cursor" 3270 command. This function will include the appropriate SBA command
+	 * @param row
+	 * @param col
+	 * @return
+	 */
 	public static int[] ic(int row, int col) {
 		int[] _return = new int[4];
 		
@@ -123,7 +151,12 @@ public class Screen {
 		return _return;
 	}
 	
-	
+	/**
+	 * getpost translates row and col to buffer address control characters.
+	 * @param row
+	 * @param col
+	 * @return
+	 */
 	public static int[] getPos(int row, int col) {
 		int[] _return = new int[2];
 		
@@ -138,7 +171,10 @@ public class Screen {
 	}
 	
 	
-	
+	/**
+	 * codes are the 3270 control character I/O codes, precomputer as provided
+	 * at http://www.tommysprinkle.com/mvs/P3270/iocodes.htm
+	 */
 	public static int[] codes = {
 			0x40, 0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xc6, 0xc7, 0xc8,
 			0xc9, 0x4a, 0x4b, 0x4c, 0x4d, 0x4e, 0x4f, 0x50, 0xd1, 0xd2, 0xd3, 0xd4,

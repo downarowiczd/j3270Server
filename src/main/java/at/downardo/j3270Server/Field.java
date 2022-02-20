@@ -6,17 +6,51 @@ LICENSE in the project root for license information
 
 **/
 package at.downardo.j3270Server;
-
+/**
+ * Field is a field on the 3270 screen
+ * @author downarowiczd
+ *
+ */
 public class Field {
+	/**
+	 * Row is the row, 0-based, thatthe field attribute character should
+	 * begin at. This library currently only support 24 rows,
+	 * so Row must be 0-23
+	 */
+	public int Row;
+	/**
+	 * Col is the column, 0-based, that the field attribute character should
+	 * begin at. This library currently only supposed 80 columns, so Column
+	 * must be 0-79
+	 */
+	public int Col;
+	/**
+	 * Text ist the contet of the field to display.
+	 */
+	public String Content;
+	/**
+	 * Write allows the use to edit the value of the field
+	 */
+	public boolean Write;
+	/**
+	 * Intense indicates this field should be displayed with high intensity
+	 */
+	public boolean Intense;
+	/**
+	 * Name is the name of this field, which is use to get the user-entered
+	 * data. All writeable fields on a screen must have a unique name.
+	 */
+	public String Name;
 	
-	private int Row;
-	private int Col;
-	private String Content;
-	private boolean Write;
-	private boolean Intense;
-	private String Name;
-	
-	
+	/**
+	 * 
+	 * @param row
+	 * @param col
+	 * @param content
+	 * @param write
+	 * @param intense
+	 * @param name
+	 */
 	public Field(int row, int col, String content, boolean write, boolean intense, String name) {
 		Row = row;
 		Col = col;
@@ -26,15 +60,6 @@ public class Field {
 		Name = name;
 	}
 	
-	public Field(int row, int col, boolean intense, String content) {
-		Row = row;
-		Col = col;
-		Content = content;
-		Write = false;
-		Intense = intense;
-		Name = "";
-	}
-
 	/**
 	 * @return the col
 	 */

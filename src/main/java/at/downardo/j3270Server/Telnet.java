@@ -9,12 +9,15 @@ package at.downardo.j3270Server;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 public class Telnet {
-	
+	/**
+	 * NegotiateTelnet will naively (e.g. not checking client responses)
+	 * negotiate the options necessary for tn3270 on a new telnet connection
+	 * @param out
+	 * @param in
+	 */
 	public static void NegotiateTelnet(BufferedOutputStream out, BufferedInputStream in) {
 		byte[] _trash = new byte[255];
 		byte[] _t = {(byte) 0xff, (byte) 0xfd, 0x18};
