@@ -7,8 +7,10 @@ LICENSE in the project root for license information
 **/
 package at.downardo.j3270Server;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * Screen is an array of fields which compose a complete 3270 screen.
@@ -29,19 +31,25 @@ public class Screen {
 	}
 	
 	/**
-	 * WriteScreen writes the 3270 datastream for the screen to a writer.
-	 * Fields that aren't valid (e.g. outside of the 24x80 screen) are silently ignored.
-	 * After writing the fields, the cursor is set to crow ccol, which are 0-based positions:
-	 * row 0-23 and col 0-79.
+	 * ShowScreen writes the 3270 datastream for the screen to a connection.
+	 * Fields that aren't valid (e.g. outside of the 24x80 screen) are silently
+	 * ignored. If a named field has an entry in the values map, the content of
+	 * the field from the values map is used INSTEAD OF the Field struct's Content
+	 * field. The values map may be nil if no overrides are needed. After writing
+	 * the fields, the cursor is set to crow, ccol, which are 0-based positions:
+	 * row 0-23 and col 0-79. Errors from conn.Write() are returned if
+	 * encountered.
 	 * @param screen
 	 * @param crow
 	 * @param ccol
 	 * @param buffer
 	 * @throws IOException
 	 */
-	public static void WriteScreen(Screen screen, int crow, int ccol, BufferedOutputStream buffer) throws IOException {
+	public static Response ShowScreen(Screen screen, HashMap<String, String> values, int crow, int ccol, BufferedOutputStream buffer, BufferedInputStream in) throws IOException {
 		//ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 		
+		HashMap<Integer, String> fieldMap = new HashMap<Integer, String>();
+
 		buffer.write(0xf5);
 		
 		buffer.write(0xc3);
@@ -60,11 +68,32 @@ public class Screen {
 				buffer.write(_t);
 			}
 			
-			if(fld.getContent() != "") {
+			/*if(fld.getContent() != "") {
+				for (int _t : EBCDIC.ascii2ebcdic(fld.getContent().getBytes())) {
+					buffer.write(_t);
+				}
+			}*/
+			
+			
+			String content = fld.getContent();
+			
+			if(fld.getName() != "") {
+				if(values != null & values.containsKey(fld.getName())) {
+					content = values.get(fld.getName());
+				}
+			}
+			
+			if(content != "") {
 				for (int _t : EBCDIC.ascii2ebcdic(fld.getContent().getBytes())) {
 					buffer.write(_t);
 				}
 			}
+			
+			if(fld.isWrite()) {
+				int bufaddr = fld.getRow() * 80 + fld.getCol();
+				fieldMap.put(bufaddr+1, fld.getName());
+			}
+			
 			
 		}
 		
@@ -75,7 +104,9 @@ public class Screen {
 		if(ccol < 0 || ccol > 79) {
 			ccol = 0;
 		}
+		buffer.write(ic(crow, ccol));
 		
+		//Telnet IAC EOR
 		byte[] _t = new byte[]{(byte) 0xff, (byte) 0xef};
 		
 		try {
@@ -86,7 +117,7 @@ public class Screen {
 		
 		buffer.flush();
 		
-		//return buffer;
+		return Response.readResponse(in, fieldMap);
 		
 	}
 	
@@ -118,13 +149,15 @@ public class Screen {
 		
 		if(!write) {
 			_return[1] |= 1 << 5;
+		}else {
+			_return[1] |= 1;
 		}
 		
 		if(intense) {
 			_return[1] |= 1 << 3;
 		}
 		
-		_return[1] = Screen.codes[_return[1]];
+		_return[1] = Util.codes[_return[1]];
 		
 		return _return;
 
@@ -136,12 +169,12 @@ public class Screen {
 	 * @param col
 	 * @return
 	 */
-	public static int[] ic(int row, int col) {
-		int[] _return = new int[4];
+	public static byte[] ic(int row, int col) {
+		byte[] _return = new byte[4];
 		
 		int x=0;
 		for(int _t : Screen.sba(row, col)) {
-			_return[x] = _t;
+			_return[x] = (byte)_t;
 			x++;
 		}
 		
@@ -164,25 +197,11 @@ public class Screen {
 		int hi = (address & 0xfc0) >> 6;
 		int low = address & 0x3f;
 		
-		_return[0] = Screen.codes[hi];
-		_return[1] = Screen.codes[low];
+		_return[0] = Util.codes[hi];
+		_return[1] = Util.codes[low];
 		
 		return _return;
 	}
-	
-	
-	/**
-	 * codes are the 3270 control character I/O codes, precomputer as provided
-	 * at http://www.tommysprinkle.com/mvs/P3270/iocodes.htm
-	 */
-	public static int[] codes = {
-			0x40, 0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xc6, 0xc7, 0xc8,
-			0xc9, 0x4a, 0x4b, 0x4c, 0x4d, 0x4e, 0x4f, 0x50, 0xd1, 0xd2, 0xd3, 0xd4,
-			0xd5, 0xd6, 0xd7, 0xd8, 0xd9, 0x5a, 0x5b, 0x5c, 0x5d, 0x5e, 0x5f, 0x60,
-			0x61, 0xe2, 0xe3, 0xe4, 0xe5, 0xe6, 0xe7, 0xe8, 0xe9, 0x6a, 0x6b, 0x6c,
-			0x6d, 0x6e, 0x6f, 0xf0, 0xf1, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0xf7, 0xf8,
-			0xf9, 0x7a, 0x7b, 0x7c, 0x7d, 0x7e, 0x7f
-	};
-	
+		
 
 }
