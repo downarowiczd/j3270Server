@@ -84,7 +84,7 @@ public class Screen {
 			}
 			
 			if(content != "") {
-				for (int _t : EBCDIC.ascii2ebcdic(fld.getContent().getBytes())) {
+				for (int _t : EBCDIC.ascii2ebcdic(content.getBytes())) {
 					buffer.write(_t);
 				}
 			}
