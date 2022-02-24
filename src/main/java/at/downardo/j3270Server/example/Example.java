@@ -39,7 +39,7 @@ public class Example {
 							Field[] fields = {
 								new Field(0,0,"HALLO WELT TEST", false, true, ""),
 								new Field(1,0, "Name ....", false, true, ""),
-								new Field(1,13, "", true, false, "name")
+								new Field(18,13, "", true, false, "name")
 							};
 							
 							Field[] fields2 = {
@@ -53,8 +53,9 @@ public class Example {
 
 						
 						HashMap<String, String> fieldValues = new HashMap<String, String>();
+						fieldValues.put("name", "Dominik Downarowicz");
 						while(true) {
-							Response r = Screen.ShowScreen(screen, fieldValues, 0, 0, out, in);
+							Response r = Screen.ShowScreen(screen, fieldValues, 1, 14, out, in);
 							System.out.println(r.AID);
 
 							if(r.AID == AID.AIDPF3) {
@@ -64,8 +65,10 @@ public class Example {
 							fieldValues = r.Values;
 							
 							System.out.println(fieldValues.get("name"));
+							if(r.AID == AID.AIDEnter) {
+								r = Screen.ShowScreen(screen2, fieldValues, 0, 0, out, in);	
+							}
 							
-							r = Screen.ShowScreen(screen2, fieldValues, 0, 0, out, in);
 							
 							
 							continue;	

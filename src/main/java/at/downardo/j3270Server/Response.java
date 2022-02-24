@@ -189,8 +189,8 @@ public class Response {
 	
 	
 	/**
-	 * DecodeBufAddr decodes a raw 2-byte encoded bufffer address and retunr the 
-	 * integer value of the adress (e.g. 0-1919)
+	 * DecodeBufAddr decodes a raw 2-byte encoded buffer address and return the 
+	 * integer value of the address (e.g. 0-1919)
 	 * @param raw
 	 * @return
 	 */
