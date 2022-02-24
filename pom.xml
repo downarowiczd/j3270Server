@@ -33,7 +33,7 @@
     <repository>
       <id>github</id>
       <name>GitHub Packages</name>
-      <url>https://maven.pkg.github.com/healpoint/j3270Server</url>
+      <url>https://maven.pkg.github.com/HealPoint/j3270Server</url>
     </repository>
   </distributionManagement>
   
