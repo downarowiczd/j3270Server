@@ -46,7 +46,11 @@ public class Util {
 			-1, -1, -1, -1
 	};
 	
-	
+	/**
+	 * Converts an ArrayList into an integer Array
+	 * @param integers
+	 * @return
+	 */
 	public static int[] convertIntegers(List<Integer> integers)
 	{
 	    int[] ret = new int[integers.size()];
