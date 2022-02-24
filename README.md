@@ -1,7 +1,7 @@
-j3270Server
+j3270Server ![TESTING WORKFLOW](https://github.com/HealPoint/j3270Server/actions/workflows/maven.yml/badge.svg)
 ==============
 This library is based on the library created by [racingmars (Matthew R. Wilson)](https://github.com/racingmars/).
-Thank you for creating such a great library <3
+Thank you for creating such a great library ❤️
 
 The library is used to write java socket serrver for telnet 3270 clients by building 3270 data streams from fields and processing the response entered by users.
 
