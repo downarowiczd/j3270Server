@@ -15,6 +15,7 @@ import java.net.Socket;
 import java.util.HashMap;
 
 import at.downardo.j3270Server.AIDClass.AID;
+import at.downardo.j3270Server.EBCDIC;
 import at.downardo.j3270Server.Field;
 import at.downardo.j3270Server.Response;
 import at.downardo.j3270Server.Screen;
@@ -35,10 +36,12 @@ public class Example {
 							
 							Telnet.NegotiateTelnet(out, in);
 							
+							EBCDIC.CODEPAGE = "CP1047";
+							
 							Field[] fields = {
 								new Field(0,0,"HALLO WELT TEST", false, true, ""),
 								new Field(1,0, "Name ....", false, true, ""),
-								new Field(18,13, "", true, false, "name")
+								new Field(1,13, "", true, false, "name")
 							};
 							
 							Field[] fields2 = {
@@ -50,9 +53,10 @@ public class Example {
 							Screen screen = new Screen(fields);
 							Screen screen2 = new Screen(fields2);
 
+							System.out.println(EBCDIC.CODEPAGE);
 						
 							HashMap<String, String> fieldValues = new HashMap<String, String>();
-							fieldValues.put("name", "Dominik Downarowicz");
+							fieldValues.put("name", "Vorname Nachname");
 							while(true) {
 								Response r = Screen.ShowScreen(screen, fieldValues, 1, 14, out, in);
 								System.out.println(r.AID);

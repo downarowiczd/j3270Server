@@ -122,7 +122,7 @@ public class Response {
 				
 				if(buf == 0xff) {
 					if(infield) {
-						handleField(fieldpos, Util.convertIntegers(fieldval), fieldMap, fv);
+						handleField(fieldpos, Util.convertIntegerListToByteArray(fieldval), fieldMap, fv);
 					}
 					
 					buf = in.read();
@@ -134,7 +134,7 @@ public class Response {
 				if(buf == 0x11) {
 					//Finish the previous field, if necessary
 					if(infield) {
-						handleField(fieldpos, Util.convertIntegers(fieldval), fieldMap, fv);
+						handleField(fieldpos, Util.convertIntegerListToByteArray(fieldval), fieldMap, fv);
 					}
 					
 					//Start a new field
@@ -165,7 +165,7 @@ public class Response {
 		
 	}
 	
-	public static boolean handleField(int addr, int[] value, HashMap<Integer, String> fieldMap, HashMap<String, String> fieldValues) {
+	public static boolean handleField(int addr, byte[] value, HashMap<Integer, String> fieldMap, HashMap<String, String> fieldValues) {
 		if(!fieldMap.containsKey(addr)) {
 			return false;
 		}

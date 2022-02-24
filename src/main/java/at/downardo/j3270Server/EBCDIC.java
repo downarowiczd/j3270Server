@@ -7,12 +7,18 @@ LICENSE in the project root for license information
 **/
 package at.downardo.j3270Server;
 
+import java.io.UnsupportedEncodingException;
+
 public class EBCDIC {
+	
+	public static String CODEPAGE = "CP037"; 
 	
 	/**
 	 * Each index in this array is the ASCII value and each value
 	 * is the corresponding EBDIC (codepage 37) value
+	 * @deprecated
 	 */
+	@SuppressWarnings("unused")
 	private static int[] ebcdic = {
 			0, 1, 2, 3, 55, 45, 46, 47, 22, 5, 37, 11, 12, 13, 14, 15, 16, 17, 18, 19,
 			60, 61, 50, 38, 24, 25, 63, 39, 28, 29, 30, 31, 64, 79, 127, 123, 91, 108,
@@ -36,7 +42,9 @@ public class EBCDIC {
 	/**
 	 * Each index in this array is the EBCDIC (codepage 37) value each value
 	 * is the correspondig ASCII value.
+	 * @deprecated
 	 */
+	@SuppressWarnings("unused")
 	private static int[] ascii = {
 			0, 1, 2, 3, 156, 9, 134, 127, 151, 141, 142, 11, 12, 13, 14, 15,
 			16, 17, 18, 19, 157, 133, 8, 135, 24, 25, 146, 143, 28, 29, 30, 31,
@@ -62,7 +70,8 @@ public class EBCDIC {
 	 * @param bs
 	 * @return Converted int array
 	 */
-	public static int[] ascii2ebcdic(byte[] _ascii) {
+	/*public static int[] ascii2ebcdic(byte[] _ascii) {
+		
 		int[] _ebcdicReturn = new int[_ascii.length];
 		
 		for(int i = 0; i < _ascii.length; i++) {
@@ -70,17 +79,59 @@ public class EBCDIC {
 		}
 		return _ebcdicReturn;
 	}
+	*/
+	public static int[] ascii2ebcdic(byte[] _ascii) {
+		
+		int[] _ebcdicReturn = new int[_ascii.length];
+		
+		String input = new String(_ascii);
+		try {
+			byte[] cp = input.getBytes(EBCDIC.CODEPAGE);
+			for(int i = 0; i < cp.length; i++) {
+				_ebcdicReturn[i] = cp[i];
+			}
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		return _ebcdicReturn;
+	}
+	
+	
 	/**
 	 * Converts the input int array  from EBCDIC to ASCII
 	 * @param _ebcdic
 	 * @return Converted int array
 	 */
+	/*
 	public static int[] ebcdic2ascii(int[] _ebcdic) {
 		int[] _asciiReturn = new int[_ebcdic.length];
 		
 		for(int i = 0; i < _ebcdic.length; i++) {
 			_asciiReturn[i] = EBCDIC.ascii[_ebcdic[i]];
 		}
+		return _asciiReturn;
+	}
+	*/
+	public static int[] ebcdic2ascii(byte[] _ebcdic) {
+		
+		int[] _asciiReturn = new int[_ebcdic.length];
+		
+		String input = "";
+		try {
+			input = new String(_ebcdic, EBCDIC.CODEPAGE);
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+		try {
+			byte[] ascii = input.getBytes("ASCII");
+			for(int i = 0; i < ascii.length; i++) {
+				_asciiReturn[i] = ascii[i];
+			}
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
 		return _asciiReturn;
 	}
 	

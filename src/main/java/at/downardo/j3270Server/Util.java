@@ -51,12 +51,30 @@ public class Util {
 	 * @param integers
 	 * @return
 	 */
+	/*
 	public static int[] convertIntegers(List<Integer> integers)
 	{
 	    int[] ret = new int[integers.size()];
 	    for (int i=0; i < ret.length; i++)
 	    {
 	        ret[i] = integers.get(i).intValue();
+	    }
+	    return ret;
+	}
+	*/
+	
+
+	/**
+	 * Converts an ArrayList into an byte Array
+	 * @param integers
+	 * @return
+	 */
+	public static byte[] convertIntegerListToByteArray(List<Integer> integers)
+	{
+	    byte[] ret = new byte[integers.size()];
+	    for (int i=0; i < ret.length; i++)
+	    {
+	        ret[i] = (byte)integers.get(i).intValue();
 	    }
 	    return ret;
 	}
