@@ -25,7 +25,6 @@ public class Example {
 	public static void main(String[] args) {
 		try (ServerSocket server = new ServerSocket(3270)) {
 			while(true) {
-				try {
 				Socket client = server.accept();
 				Thread t = new Thread() {
 					@Override
@@ -52,42 +51,36 @@ public class Example {
 							Screen screen2 = new Screen(fields2);
 
 						
-						HashMap<String, String> fieldValues = new HashMap<String, String>();
-						fieldValues.put("name", "Dominik Downarowicz");
-						while(true) {
-							Response r = Screen.ShowScreen(screen, fieldValues, 1, 14, out, in);
-							System.out.println(r.AID);
-
-							if(r.AID == AID.AIDPF3) {
-								break;
+							HashMap<String, String> fieldValues = new HashMap<String, String>();
+							fieldValues.put("name", "Dominik Downarowicz");
+							while(true) {
+								Response r = Screen.ShowScreen(screen, fieldValues, 1, 14, out, in);
+								System.out.println(r.AID);
+	
+								if(r.AID == AID.AIDPF3) {
+									break;
+								}
+								
+								fieldValues = r.Values;
+								
+								System.out.println(fieldValues.get("name"));
+								if(r.AID == AID.AIDEnter) {
+									r = Screen.ShowScreen(screen2, fieldValues, 0, 0, out, in);	
+								}
+								
+								continue;	
 							}
-							
-							fieldValues = r.Values;
-							
-							System.out.println(fieldValues.get("name"));
-							if(r.AID == AID.AIDEnter) {
-								r = Screen.ShowScreen(screen2, fieldValues, 0, 0, out, in);	
-							}
-							
-							
-							
-							continue;	
-						}
 							
 							System.out.println("Connection closed");
 							client.close();
 							
 							
-							
 						} catch (IOException e) {
-							
+							e.printStackTrace();						
 						}
 					}
 				};
 				t.start();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
 			}
 			
 		} catch (IOException e) {
