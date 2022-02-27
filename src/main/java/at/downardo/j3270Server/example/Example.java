@@ -46,6 +46,7 @@ public class Example {
 								new Field(2, 13, "", true, false, true, "password"),
 								new Field(3,0, "Test", false, true, false, ""),
 								new Field(4,0, "Test", false, false, false, ""),
+								new Field(22,0, "", false, true, false, "errormsg"),
 								new Field(23,0, "PF3 Exit", false, true, false, "")
 								
 							};
@@ -53,6 +54,7 @@ public class Example {
 							Field[] fields2 = {
 									new Field(0,0,"HALLO WELT TEST WORLD 2", false, true, false,  ""),
 									new Field(1,0, "Name ....", false, true, false,  ""),
+									new Field(22,0, "", false, true, false, "errormsg"),
 									new Field(1,13, "", false, false, false,  "")
 								};
 							
@@ -62,10 +64,11 @@ public class Example {
 							System.out.println(EBCDIC.CODEPAGE);
 						
 							HashMap<String, String> fieldValues = new HashMap<String, String>();
-							fieldValues.put("name", "Vorname Nachname");
+							fieldValues.put("name", "");
+							fieldValues.put("errormsg", "");
 							while(true) {
 								Response r = Screen.ShowScreen(screen, fieldValues, 1, 14, out, in);
-								System.out.println(r.AID);
+								System.out.println(fieldValues.get("errormsg"));
 	
 								if(r.AID == AID.AIDPF3) {
 									break;
@@ -76,8 +79,20 @@ public class Example {
 								System.out.println(fieldValues.get("password"));
 								System.out.println(EBCDIC.CODEPAGE);
 
+								
+								
 								if(r.AID == AID.AIDEnter) {
-									r = Screen.ShowScreen(screen2, fieldValues, 0, 0, out, in);	
+									if(!fieldValues.get("name").trim().equals("")) {
+										while(true) {
+											r = Screen.ShowScreen(screen2, fieldValues, 0, 0, out, in);
+											if(r.AID == AID.AIDPF1) {
+												break;
+											}
+										}
+									}else {
+										fieldValues.put("errormsg", "Name field is required");
+										continue;
+									}
 								}
 								
 								continue;	
