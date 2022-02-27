@@ -39,15 +39,21 @@ public class Example {
 							EBCDIC.CODEPAGE = "CP1148";
 							
 							Field[] fields = {
-								new Field(0,0,"HALLO WELT TEST €", false, true, ""),
-								new Field(1,0, "Name ....", false, true, ""),
-								new Field(1,13, "", true, false, "name")
+								new Field(0,0,"HALLO WELT TEST €", false, true, false,  ""),
+								new Field(1,0, "Name ....", false, true, false, ""),
+								new Field(1,13, "", true, false, false, "name"),
+								new Field(2,0, "Password ", false, false, false, ""),
+								new Field(2, 13, "", true, false, true, "password"),
+								new Field(3,0, "Test", false, true, false, ""),
+								new Field(4,0, "Test", false, false, false, ""),
+								new Field(23,0, "PF3 Exit", false, true, false, "")
+								
 							};
 							
 							Field[] fields2 = {
-									new Field(0,0,"HALLO WELT TEST WORLD 2", false, true, ""),
-									new Field(1,0, "Name ....", false, true, ""),
-									new Field(1,13, "", false, false, "")
+									new Field(0,0,"HALLO WELT TEST WORLD 2", false, true, false,  ""),
+									new Field(1,0, "Name ....", false, true, false,  ""),
+									new Field(1,13, "", false, false, false,  "")
 								};
 							
 							Screen screen = new Screen(fields);
@@ -67,7 +73,7 @@ public class Example {
 								
 								fieldValues = r.Values;
 								
-								System.out.println(fieldValues.get("name"));
+								System.out.println(fieldValues.get("password"));
 								System.out.println(EBCDIC.CODEPAGE);
 
 								if(r.AID == AID.AIDEnter) {

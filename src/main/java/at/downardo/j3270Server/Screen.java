@@ -64,7 +64,7 @@ public class Screen {
 				buffer.write(_t);
 			}
 			
-			for(int _t : Screen.sf(fld.isWrite(), fld.isIntense())){
+			for(int _t : Screen.sf(fld.isWrite(), fld.isIntense(), fld.isHidden())){
 				buffer.write(_t);
 			}
 			
@@ -140,9 +140,10 @@ public class Screen {
 	 * sf is the "start field" 3280 command
 	 * @param write
 	 * @param intense
+	 * @param hidden
 	 * @return
 	 */
-	public static int[] sf(boolean write, boolean intense) {
+	public static int[] sf(boolean write, boolean intense, boolean hidden) {
 		int[] _return = new int[2];
 		
 		_return[0] = 0x1d;
@@ -156,6 +157,12 @@ public class Screen {
 		if(intense) {
 			_return[1] |= 1 << 3;
 		}
+		
+		if(hidden) {
+			_return[1] |= 1 << 3;
+			_return[1] |= 1 << 2;
+		}
+		
 		
 		_return[1] = Util.codes[_return[1]];
 		

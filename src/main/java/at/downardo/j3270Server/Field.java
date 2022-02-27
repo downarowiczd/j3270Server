@@ -42,6 +42,8 @@ public class Field {
 	 */
 	public String Name;
 	
+	public boolean Hidden;
+
 	/**
 	 * 
 	 * @param row
@@ -49,15 +51,31 @@ public class Field {
 	 * @param content
 	 * @param write
 	 * @param intense
+	 * @param hidden
 	 * @param name
 	 */
-	public Field(int row, int col, String content, boolean write, boolean intense, String name) {
+	public Field(int row, int col, String content, boolean write, boolean intense, boolean hidden, String name) {
 		Row = row;
 		Col = col;
 		Content = content;
 		Write = write;
 		Intense = intense;
 		Name = name;
+		Hidden = hidden;
+	}
+	
+	/**
+	 * @return the hidden
+	 */
+	public boolean isHidden() {
+		return Hidden;
+	}
+
+	/**
+	 * @param hidden the hidden to set
+	 */
+	public void setHidden(boolean hidden) {
+		Hidden = hidden;
 	}
 	
 	/**
