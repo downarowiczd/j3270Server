@@ -6,6 +6,8 @@ LICENSE in the project root for license information
 
 **/
 package at.downardo.j3270Server;
+
+
 /**
  * Field is a field on the 3270 screen
  * @author downarowiczd
@@ -43,6 +45,41 @@ public class Field {
 	public String Name;
 	
 	public boolean Hidden;
+	
+	public Colour colour;
+	
+	public Highlight highlight;
+	
+	
+	public static enum Colour {
+		DefaultColour(0),
+		Blue(0xf1),
+		Red(0xf2),
+		Pink(0xf3),
+		Green(0xf4),
+		Turquosie(0xf5),
+		Yellow(0xf6),
+		White(0xf7);
+		
+		public int value;
+		private Colour(int value) {
+			this.value = value;
+		}
+		
+	}
+
+	public static enum Highlight {
+		DefaultHighlight(0),
+		Blink(0xf1),
+		ReverseVideo(0xf2),
+		Underscore(0xf4);
+		
+		
+		public int value;
+		private Highlight(int value) {
+			this.value = value;
+		}
+	}
 
 	/**
 	 * 
@@ -54,6 +91,54 @@ public class Field {
 	 * @param hidden
 	 * @param name
 	 */
+	public Field(int row, int col, String content, boolean write, boolean intense, boolean hidden, String name, Colour colour, Highlight highlight) {
+		Row = row;
+		Col = col;
+		Content = content;
+		Write = write;
+		Intense = intense;
+		Name = name;
+		Hidden = hidden;
+		this.colour = colour;
+		this.highlight = highlight;
+	}
+	
+	public Field(int row, int col, String content, boolean write, boolean intense, boolean hidden, Colour colour, Highlight highlight) {
+		Row = row;
+		Col = col;
+		Content = content;
+		Write = write;
+		Intense = intense;
+		Name = "";
+		Hidden = hidden;
+		this.colour = colour;
+		this.highlight = highlight;
+	}
+	
+	public Field(int row, int col, String content, boolean write, boolean intense, boolean hidden, Colour colour) {
+		Row = row;
+		Col = col;
+		Content = content;
+		Write = write;
+		Intense = intense;
+		Name = "";
+		Hidden = hidden;
+		this.colour = colour;
+		highlight = Highlight.DefaultHighlight;
+	}
+	
+	public Field(int row, int col, String content, boolean write, boolean intense, boolean hidden, String name, Colour colour) {
+		Row = row;
+		Col = col;
+		Content = content;
+		Write = write;
+		Intense = intense;
+		Name = name;
+		Hidden = hidden;
+		this.colour = colour;
+		highlight = Highlight.DefaultHighlight;
+	}
+	
 	public Field(int row, int col, String content, boolean write, boolean intense, boolean hidden, String name) {
 		Row = row;
 		Col = col;
@@ -62,6 +147,20 @@ public class Field {
 		Intense = intense;
 		Name = name;
 		Hidden = hidden;
+		this.colour = Colour.DefaultColour;
+		highlight = Highlight.DefaultHighlight;
+	}
+	
+	public Field(int row, int col, String content, boolean write, boolean intense, boolean hidden) {
+		Row = row;
+		Col = col;
+		Content = content;
+		Write = write;
+		Intense = intense;
+		Name = "";
+		Hidden = hidden;
+		this.colour = Colour.DefaultColour;
+		highlight = Highlight.DefaultHighlight;
 	}
 	
 	/**
@@ -150,6 +249,34 @@ public class Field {
 	 */
 	public void setRow(int row) {
 		Row = row;
+	}
+
+	/**
+	 * @return the colour
+	 */
+	public Colour getColour() {
+		return colour;
+	}
+
+	/**
+	 * @param colour the colour to set
+	 */
+	public void setColour(Colour colour) {
+		this.colour = colour;
+	}
+
+	/**
+	 * @return the highlight
+	 */
+	public Highlight getHighlight() {
+		return highlight;
+	}
+
+	/**
+	 * @param highlight the highlight to set
+	 */
+	public void setHighlight(Highlight highlight) {
+		this.highlight = highlight;
 	}
 	
 	

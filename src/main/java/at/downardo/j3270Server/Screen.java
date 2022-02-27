@@ -10,7 +10,9 @@ package at.downardo.j3270Server;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Screen is an array of fields which compose a complete 3270 screen.
@@ -64,7 +66,7 @@ public class Screen {
 				buffer.write(_t);
 			}
 			
-			for(int _t : Screen.sf(fld.isWrite(), fld.isIntense(), fld.isHidden())){
+			for(int _t : Screen.buildField(fld)){
 				buffer.write(_t);
 			}
 			
@@ -143,7 +145,7 @@ public class Screen {
 	 * @param hidden
 	 * @return
 	 */
-	public static int[] sf(boolean write, boolean intense, boolean hidden) {
+/*	public static int[] sf(boolean write, boolean intense, boolean hidden) {
 		int[] _return = new int[2];
 		
 		_return[0] = 0x1d;
@@ -168,7 +170,9 @@ public class Screen {
 		
 		return _return;
 
-	}
+	}*/
+	
+	
 	
 	/**
 	 * ic is the "insert cursor" 3270 command. This function will include the appropriate SBA command
@@ -208,6 +212,75 @@ public class Screen {
 		_return[1] = Util.codes[low];
 		
 		return _return;
+	}
+	/**
+	 * Will return either an sf or sfe command depending for the field
+	 * @param f
+	 * @return
+	 */
+	public static int[] buildField(Field f) {
+		List<Integer> _return = new ArrayList<Integer>();
+		
+		if(f.getColour() == Field.Colour.DefaultColour && f.getHighlight() == Field.Highlight.DefaultHighlight) {
+			_return.add(0x1d); //sf - "start field"
+			_return.add(sfAttribute(f.isWrite(), f.isIntense(), f.isHidden()));
+			
+			return Util.convertIntegers(_return);
+		}
+		
+		_return.add(0x29); //sfe - "start field extended"
+		int paramCount = 1;
+		if(f.getColour() != Field.Colour.DefaultColour) {
+			paramCount++;
+		}
+		if(f.getHighlight() != Field.Highlight.DefaultHighlight) {
+			paramCount++;
+		}
+		_return.add(paramCount);
+		
+		//Write the basic field attribute
+		_return.add(0xc0);
+		_return.add(sfAttribute(f.isWrite(), f.isIntense(), f.isHidden()));
+		
+		if(f.getHighlight() != Field.Highlight.DefaultHighlight) {
+			_return.add(0x41);
+			_return.add(f.getHighlight().value);
+		}
+		
+		if(f.getColour() != Field.Colour.DefaultColour) {
+			_return.add(0x42);
+			_return.add(f.getColour().value);
+		}
+		
+		return Util.convertIntegers(_return);
+		
+	}
+	
+	
+	public static int sfAttribute(boolean write, boolean intense, boolean hidden) {
+		int _return = 0;;
+		
+
+		if(!write) {
+			_return |= 1 << 5;
+		}else {
+			_return |= 1;
+		}
+		
+		if(intense) {
+			_return |= 1 << 3;
+		}
+		
+		if(hidden) {
+			_return |= 1 << 3;
+			_return |= 1 << 2;
+		}
+		
+		
+		_return = Util.codes[_return];
+		
+		return _return;
+
 	}
 		
 

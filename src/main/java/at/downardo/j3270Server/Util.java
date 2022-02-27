@@ -51,7 +51,7 @@ public class Util {
 	 * @param integers
 	 * @return
 	 */
-	/*
+	
 	public static int[] convertIntegers(List<Integer> integers)
 	{
 	    int[] ret = new int[integers.size()];
@@ -61,7 +61,7 @@ public class Util {
 	    }
 	    return ret;
 	}
-	*/
+	
 	
 
 	/**

@@ -39,21 +39,23 @@ public class Example {
 							EBCDIC.CODEPAGE = "CP1148";
 							
 							Field[] fields = {
-								new Field(0,0,"HALLO WELT TEST €", false, true, false,  ""),
-								new Field(1,0, "Name ....", false, true, false, ""),
-								new Field(1,13, "", true, false, false, "name"),
+								new Field(0,0,"HALLO WELT TEST €", false, true, false,  "", Field.Colour.Blue, Field.Highlight.Blink),
+								new Field(1,0, "Name", false, true, false, ""),
+								new Field(1,13, "", true, false, false, "name", Field.Colour.Turquosie, Field.Highlight.ReverseVideo),
+								new Field(1,40, "", false, false, false),
 								new Field(2,0, "Password ", false, false, false, ""),
-								new Field(2, 13, "", true, false, true, "password"),
+								new Field(2, 13, "", true, false, true, "password", Field.Colour.DefaultColour, Field.Highlight.ReverseVideo),
+								new Field(2,40, "",false,false,false),
 								new Field(3,0, "Test", false, true, false, ""),
 								new Field(4,0, "Test", false, false, false, ""),
-								new Field(22,0, "", false, true, false, "errormsg"),
+								new Field(22,0, "", false, true, false, "errormsg", Field.Colour.Red),
 								new Field(23,0, "PF3 Exit", false, true, false, "")
 								
 							};
 							
 							Field[] fields2 = {
 									new Field(0,0,"HALLO WELT TEST WORLD 2", false, true, false,  ""),
-									new Field(1,0, "Name ....", false, true, false,  ""),
+									new Field(1,0, "Name", false, true, false,  ""),
 									new Field(22,0, "", false, true, false, "errormsg"),
 									new Field(1,13, "", false, false, false,  "")
 								};
@@ -68,7 +70,6 @@ public class Example {
 							fieldValues.put("errormsg", "");
 							while(true) {
 								Response r = Screen.ShowScreen(screen, fieldValues, 1, 14, out, in);
-								System.out.println(fieldValues.get("errormsg"));
 	
 								if(r.AID == AID.AIDPF3) {
 									break;
