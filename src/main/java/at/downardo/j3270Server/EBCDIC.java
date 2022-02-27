@@ -125,6 +125,7 @@ public class EBCDIC {
 		}
 		try {
 			byte[] ascii = input.getBytes("ASCII");
+			//byte[] ascii = input.getBytes("ISO-8859-15");
 			for(int i = 0; i < ascii.length; i++) {
 				_asciiReturn[i] = ascii[i];
 			}

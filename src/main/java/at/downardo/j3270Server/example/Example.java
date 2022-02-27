@@ -36,10 +36,10 @@ public class Example {
 							
 							Telnet.NegotiateTelnet(out, in);
 							
-							EBCDIC.CODEPAGE = "CP1047";
+							EBCDIC.CODEPAGE = "CP1148";
 							
 							Field[] fields = {
-								new Field(0,0,"HALLO WELT TEST", false, true, ""),
+								new Field(0,0,"HALLO WELT TEST €", false, true, ""),
 								new Field(1,0, "Name ....", false, true, ""),
 								new Field(1,13, "", true, false, "name")
 							};
@@ -68,6 +68,8 @@ public class Example {
 								fieldValues = r.Values;
 								
 								System.out.println(fieldValues.get("name"));
+								System.out.println(EBCDIC.CODEPAGE);
+
 								if(r.AID == AID.AIDEnter) {
 									r = Screen.ShowScreen(screen2, fieldValues, 0, 0, out, in);	
 								}

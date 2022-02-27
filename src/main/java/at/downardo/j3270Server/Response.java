@@ -180,6 +180,7 @@ public class Response {
 		
 		try {
 			fieldValues.put(name, new String(_t, "UTF-8"));
+			//fieldValues.put(name, new String(_t, "UTF-8"));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
