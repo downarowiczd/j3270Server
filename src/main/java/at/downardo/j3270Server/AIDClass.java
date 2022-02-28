@@ -16,7 +16,7 @@ public class AIDClass {
 	 *
 	 */
 	public enum AID {
-		AIDNONE(0x60),
+		AIDNone(0x60),
 		AIDEnter(0x7D),
 		AIDPF1  (0xF1),
 		AIDPF2  (0xF2),
@@ -60,6 +60,77 @@ public class AIDClass {
 				}
 			}
 			return null;
+		}
+		
+		public static String AIDtoString(AID aid) {
+			if(aid != null) {
+				switch (aid) {
+				case AIDClear:
+					return "Clear";
+				case AIDEnter:
+					return "Enter";
+				case AIDNone:
+					return "[none]";
+				case AIDPA1:
+					return "PA1";
+				case AIDPA2:
+					return "PA2";
+				case AIDPA3:
+					return "PA3";
+				case AIDPF1:
+					return "PF1";
+				case AIDPF2:
+					return "PF2";
+				case AIDPF3:
+					return "PF3";
+				case AIDPF4:
+					return "PF4";
+				case AIDPF5:
+					return "PF5";
+				case AIDPF6:
+					return "PF6";
+				case AIDPF7:
+					return "PF7";
+				case AIDPF8:
+					return "PF8";
+				case AIDPF9:
+					return "PF9";
+				case AIDPF10:
+					return "PF10";
+				case AIDPF11:
+					return "PF11";
+				case AIDPF12:
+					return "PF12";
+				case AIDPF13:
+					return "PF13";
+				case AIDPF14:
+					return "PF14";
+				case AIDPF15:
+					return "PF15";
+				case AIDPF16:
+					return "PF16";
+				case AIDPF17:
+					return "PF17";
+				case AIDPF18:
+					return "PF18";
+				case AIDPF19:
+					return "PF19";
+				case AIDPF20:
+					return "PF20";
+				case AIDPF21:
+					return "PF21";
+				case AIDPF22:
+					return "PF22";
+				case AIDPF23:
+					return "PF23";
+				case AIDPF24:
+					return "PF24";
+				default:
+					return "[unknown]";
+				}
+			}else {
+				return "null";
+			}
 		}
 		
 	}

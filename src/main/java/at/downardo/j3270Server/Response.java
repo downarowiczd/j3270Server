@@ -198,9 +198,14 @@ public class Response {
 	 * @return
 	 */
 	public static int decodeBufAddr(int[] raw) {
-		int hi = Util.decodes[raw[0]] << 6;
-		int lo = Util.decodes[raw[1]];
-		
+		int hi = 0;
+		int lo = 0;
+		try {
+			hi = Util.decodes[raw[0]] << 6;
+			lo = Util.decodes[raw[1]];
+		}catch(ArrayIndexOutOfBoundsException e) {
+			System.out.println("[ERROR] Out of bounds");
+		}
 		return hi | lo;
 	}
 	
