@@ -41,7 +41,9 @@ public class Response {
 		
 		AID _aid = readAID(in);
 		
-		if(_aid == AIDClass.AID.AIDClear) {
+		//If the use pressed clear, or a PA key we should return now
+		if(_aid == AIDClass.AID.AIDClear || _aid == AIDClass.AID.AIDPA1 || _aid == AIDClass.AID.AIDPA2 ||
+				_aid == AIDClass.AID.AIDPA3) {
 			return new Response(_aid, 0, 0, null);
 		}
 		
