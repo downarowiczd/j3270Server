@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>at.downardo</groupId>
   <artifactId>j3270Server</artifactId>
-  <version>0.0.3</version>
+  <version>0.0.4</version>
   <name>Java 3270 Server</name>
   <packaging>jar</packaging>
   <description>This libary allows the user to write servers for IBM 3270 Terminal emulators.</description>

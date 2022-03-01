@@ -26,6 +26,46 @@ public class Telnet {
 	private static final byte TERMINALTYPE = (byte)0x18;
 	private static final byte EOR = (byte)0x19;
 	
+	/**
+	 * UnNegotiateTelnet will naively (e.g. not checking client responses) attempt
+	 * to restore the telnet options state to what it was before NegotiateTelnet()
+	 * was called.
+	 * @param out
+	 * @param in
+	 */
+	public static void UnNegotiateTelnet(BufferedOutputStream out, BufferedInputStream in) {
+		byte[] _trash = new byte[255];
+		byte[] _t = {IAC,WONT,EOR,IAC,WONT,BINARY};
+		
+		try {
+			out.write(_t);
+			out.flush();
+			in.read(_trash);
+			
+			byte[] _2t = {IAC,DONT,BINARY};
+			out.write(_2t);
+			out.flush();
+
+			in.read(_trash);
+
+			byte[] _3t = {IAC,DONT,EOR};
+
+			out.write(_3t);
+			out.flush();
+
+			in.read(_trash);
+
+			byte[] _4t = {IAC,DONT,TERMINALTYPE};
+			
+			out.write(_4t);
+			out.flush();
+
+			in.read(_trash);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	
 	/**
