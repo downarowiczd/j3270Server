@@ -51,6 +51,16 @@ public class Field {
 	public Highlight highlight;
 	
 	
+	/**
+	 * KeepSpaces will prevent the strings.TrimSpace() function from being
+	 * called on the field value. Generally you want leading and trailing
+	 * spaces trimmed from fields in 3270 before processing, but if you are
+	 * building a whitespace-sensitive application, you can ask for the
+	 * original, un-trimmed value for a field by setting this to true.
+	 */
+	public boolean KeepSpaces;
+	
+	
 	public static enum Colour {
 		DefaultColour(0),
 		Blue(0xf1),
@@ -103,6 +113,19 @@ public class Field {
 		this.highlight = highlight;
 	}
 	
+	public Field(int row, int col, String content, boolean write, boolean intense, boolean hidden, String name, Colour colour, Highlight highlight, boolean keepSpaces) {
+		Row = row;
+		Col = col;
+		Content = content;
+		Write = write;
+		Intense = intense;
+		Name = name;
+		Hidden = hidden;
+		this.colour = colour;
+		this.highlight = highlight;
+		this.KeepSpaces = keepSpaces;
+	}
+	
 	public Field(int row, int col, String content, boolean write, boolean intense, boolean hidden, Colour colour, Highlight highlight) {
 		Row = row;
 		Col = col;
@@ -139,6 +162,19 @@ public class Field {
 		highlight = Highlight.DefaultHighlight;
 	}
 	
+	public Field(int row, int col, String content, boolean write, boolean intense, boolean hidden, String name, Colour colour, boolean keepSpaces) {
+		Row = row;
+		Col = col;
+		Content = content;
+		Write = write;
+		Intense = intense;
+		Name = name;
+		Hidden = hidden;
+		this.colour = colour;
+		highlight = Highlight.DefaultHighlight;
+		KeepSpaces = keepSpaces;
+	}
+	
 	public Field(int row, int col, String content, boolean write, boolean intense, boolean hidden, String name) {
 		Row = row;
 		Col = col;
@@ -149,6 +185,19 @@ public class Field {
 		Hidden = hidden;
 		this.colour = Colour.DefaultColour;
 		highlight = Highlight.DefaultHighlight;
+	}
+	
+	public Field(int row, int col, String content, boolean write, boolean intense, boolean hidden, String name, boolean keepSpaces) {
+		Row = row;
+		Col = col;
+		Content = content;
+		Write = write;
+		Intense = intense;
+		Name = name;
+		Hidden = hidden;
+		this.colour = Colour.DefaultColour;
+		highlight = Highlight.DefaultHighlight;
+		KeepSpaces = keepSpaces;
 	}
 	
 	public Field(int row, int col, String content, boolean write, boolean intense, boolean hidden) {
@@ -277,6 +326,20 @@ public class Field {
 	 */
 	public void setHighlight(Highlight highlight) {
 		this.highlight = highlight;
+	}
+
+	/**
+	 * @return the keepSpaces
+	 */
+	public boolean isKeepSpaces() {
+		return KeepSpaces;
+	}
+
+	/**
+	 * @param keepSpaces the keepSpaces to set
+	 */
+	public void setKeepSpaces(boolean keepSpaces) {
+		KeepSpaces = keepSpaces;
 	}
 	
 	

@@ -119,7 +119,17 @@ public class Screen {
 		
 		buffer.flush();
 		
-		return Response.readResponse(in, fieldMap);
+		Response response = Response.readResponse(in, fieldMap);
+		
+		for(Field fld : screen.getFields()) {
+			if(!fld.KeepSpaces && response.Values != null) {
+				if(response.Values.get(fld.getName()) != "" && response.Values.get(fld.getName()) != null) {
+					response.Values.put(fld.getName(), response.Values.get(fld.getName()).trim());
+				}
+			}
+		}
+		
+		return response;
 		
 	}
 	
