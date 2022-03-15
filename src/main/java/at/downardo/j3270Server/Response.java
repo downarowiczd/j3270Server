@@ -63,7 +63,8 @@ public class Response {
 		int buf = 0;
 		
 		try {
-			buf = in.read();
+			//buf = in.read();
+			buf = Telnet.TelnetRead(in, new int[1])[0];
 			if((buf == 0x60) || (buf >= 0x6b && buf <= 0x6e) ||
 					(buf >= 0x7a && buf <= 0x7d) || (buf >= 0x4a && buf <= 0x4c) ||
 					(buf >= 0xf1 && buf <= 0xf9) || (buf >= 0xc1 && buf <= 0xc9) ) {
@@ -83,10 +84,10 @@ public class Response {
 	}
 	
 	public static int[] readPosition (BufferedInputStream in) {
-		int buf = 0;
+		//int buf = 0;
 		int[] raw = new int[2];
 		
-		for(int i = 0; i < 2; i++) {
+		/*for(int i = 0; i < 2; i++) {
 			try {
 				buf = in.read();
 				raw[i] = buf;
@@ -98,7 +99,19 @@ public class Response {
 					e1.printStackTrace();
 				}
 			}
+		}*/
+		
+		try {
+			raw = Telnet.TelnetRead(in, raw);
+		} catch (IOException e) {
+			try {
+				in.close();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
 		}
+		
 		
 		int addr = Response.decodeBufAddr(raw);
 		int row = addr % 80;
@@ -120,14 +133,18 @@ public class Response {
 		
 		while(true) {
 			try {
-				buf = in.read();
+				//buf = in.read();
+				buf = Telnet.TelnetRead(in, new int[1])[0];
+
 				
 				if(buf == 0xff) {
 					if(infield) {
 						handleField(fieldpos, Util.convertIntegerListToByteArray(fieldval), fieldMap, fv);
 					}
 					
-					buf = in.read();
+					//buf = in.read();
+					buf = Telnet.TelnetRead(in, new int[1])[0];
+
 					
 					return fv;
 				}
