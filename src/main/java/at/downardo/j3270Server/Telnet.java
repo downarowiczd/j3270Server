@@ -139,44 +139,44 @@ public class Telnet {
 		int state = NORMAL;
 		int n = 0;		
 		while(n <= (buf.length-1)) {
-			int bufRead = in.read();
-			
-			
-			
-			if(bufRead == 0) {
-				continue;
-			}
-			
-			
-			switch(state) {
-			case NORMAL:
-				if(bufRead == IAC) {
-					state = COMMAND;
-				}else {
-					buf[n] = bufRead;
-					n++;
-				}
-				break;
-			case COMMAND:
-				if(bufRead == 0xff) {
-					buf[n] = 0xff;
-					
-					n++;
-					state = NORMAL;
-				}else if(bufRead == SB) {
-					state = SUBNEG;
-				}else {
-					state = NORMAL;
-				}
-				break;
-			case SUBNEG:
-				if(bufRead == SE) {
-					state = NORMAL;
-				}else {
-					//remain in subnegotiation consumin bytes until we get SE
-				}
-				break;
+			if(in.available() > 0) {
+				int bufRead = in.read();
 				
+				if(bufRead == 0) {
+					continue;
+				}
+				
+				
+				switch(state) {
+				case NORMAL:
+					if(bufRead == IAC) {
+						state = COMMAND;
+					}else {
+						buf[n] = bufRead;
+						n++;
+					}
+					break;
+				case COMMAND:
+					if(bufRead == 0xff) {
+						buf[n] = 0xff;
+						
+						n++;
+						state = NORMAL;
+					}else if(bufRead == SB) {
+						state = SUBNEG;
+					}else {
+						state = NORMAL;
+					}
+					break;
+				case SUBNEG:
+					if(bufRead == SE) {
+						state = NORMAL;
+					}else {
+						//remain in subnegotiation consumin bytes until we get SE
+					}
+					break;
+					
+				}
 			}
 			
 		}
