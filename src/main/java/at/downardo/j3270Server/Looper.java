@@ -47,10 +47,16 @@ public class Looper {
 		HashMap<String,String> origValues = new HashMap<String,String>();
 		HashMap<String, Field> fields = new HashMap<String,Field>();
 		
-		for(int i = 0; i < screen.getFields().length; i++) {
+		/*for(int i = 0; i < screen.getFields().length; i++) {
 			if(screen.getFields()[i].getName() != "") {
 				origValues.put(screen.getFields()[i].getName(), screen.getFields()[i].getContent());
 				fields.put(screen.getFields()[i].getName(), screen.getFields()[i]);
+			}
+		}*/
+		for(Field fld : screen.getFields()) {
+			if(fld.getName() != "") {
+				origValues.put(fld.getName(), fld.getContent());
+				fields.put(fld.getName(), fld);
 			}
 		}
 		

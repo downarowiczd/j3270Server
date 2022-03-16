@@ -22,13 +22,17 @@ import java.util.List;
  */
 public class Screen {
 	
-	private Field[] fields;
+	//private Field[] fields;
+	private ArrayList<Field> fields;
 	
-	public Screen(Field[] _fields) {
+	/*public Screen(Field[] _fields) {
+		this.fields = _fields;
+	}*/
+	public Screen(ArrayList<Field> _fields) {
 		this.fields = _fields;
 	}
 	
-	public Field[] getFields() {
+	public ArrayList<Field> getFields() {
 		return fields;
 	}
 	
