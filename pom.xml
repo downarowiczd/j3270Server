@@ -1,10 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>at.downardo</groupId>
-  <artifactId>j3270Server</artifactId>
-  <version>0.0.6</version>
+  <artifactId>j3270-server</artifactId>
+  <version>0.0.7</version>
   <name>Java 3270 Server</name>
-  <packaging>jar</packaging>
   <description>This libary allows the user to write servers for IBM 3270 Terminal emulators.</description>
   
   <properties>
@@ -49,5 +48,12 @@
         </plugin>
     </plugins>
 </build>
-
+<distributionManagement>
+    <repository>
+        <id>contracts</id>
+        <name>j3270Server</name>
+        <url>https://maven.pkg.github.com/HealPoint/j3270Server</url>
+    </repository>
+</distributionManagement>
+	<packaging>pom</packaging>
 </project>
